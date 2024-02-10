@@ -1,7 +1,3 @@
-<template>
-  <NuxtPage />
-</template>
-
 <script setup>
 useHead({
   title: 'Front Text',
@@ -12,6 +8,12 @@ useHead({
   ],
 });
 </script>
+
+<template>
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
+</template>
 
 <style>
 @import url('~/assets/css/main.css');

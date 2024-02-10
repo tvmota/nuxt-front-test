@@ -1,4 +1,5 @@
 <script setup>
+import { useStorage } from '@vueuse/core';
 import NInput from '@/components/common/NInput.vue';
 import NButton from '@/components/common/NButton.vue';
 import { loginSchema } from '@/schemas/login';
@@ -17,6 +18,9 @@ const loginErr = reactive({
 const handlesubmit = async () => {
   try {
     await loginSchema.validate(loginModel, { abortEarly: false });
+    const timestamp = useStorage('timestamp', '', localStorage);
+    timestamp.value = '';
+    timestamp.value = new Date(new Date().getTime() + 30 * 60000).toISOString();
     await navigateTo('/home');
   } catch (err) {
     const errors = Object.entries(extractSchemaErr(err));
@@ -76,6 +80,8 @@ const handlesubmit = async () => {
         <span>
           Esqueceu sua senha?&nbsp;
           <a href="#">Redefinir</a>
+
+          <NuxtLink to="/home">Home</NuxtLink>
         </span>
       </div>
     </div>
@@ -110,7 +116,6 @@ const handlesubmit = async () => {
 
   &__content {
     width: 460px;
-    height: 532px;
     position: absolute;
     display: flex;
     gap: 20px;

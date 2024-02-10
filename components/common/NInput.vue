@@ -110,7 +110,7 @@ const getHasIconStyle = computed(() => {
 
 <style>
 .n-input {
-  @apply mb-4 relative;
+  @apply mb-3 relative;
 
   &--label {
     @apply text-sm block font-bold mb-2 text-gray-400 font-thin;

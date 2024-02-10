@@ -15,6 +15,9 @@
     --color-secondary: var(--berkeley-blue);
     --color-secondary--dark: var(--rich-black);
     --color-tertiary: var(--cadet-gray);
+
+    --headerHeight: 70px;
+    --footerHeight: 70px;
   }
 
   html {
@@ -37,5 +40,9 @@
 
   body {
     height: 100vh;
+  }
+
+  #__nuxt {
+    height: 100%;
   }
 }
