@@ -3,6 +3,20 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --indigo-dye: #17467bff;
+    --cadet-gray: #93a3b5ff;
+    --oxford-blue: #02162dff;
+    --rich-black: #010b16ff;
+    --berkeley-blue: #0b2e53ff;
+
+    --color-primary: var(--indigo-dye);
+    --color-primary--dark: var(--oxford-blue);
+    --color-secondary: var(--berkeley-blue);
+    --color-secondary--dark: var(--rich-black);
+    --color-tertiary: var(--cadet-gray);
+  }
+
   html {
     font-family:
       Roboto,
