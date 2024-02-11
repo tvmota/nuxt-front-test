@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { vMaska, type MaskaDetail } from 'maska';
 import { computed } from 'vue';
+const id = useId();
 
 const emit = defineEmits(['update:modelValue', 'handleBlur']);
 
@@ -12,6 +13,10 @@ const props = defineProps({
   fieldName: {
     type: String,
     required: true,
+  },
+  fieldId: {
+    type: String,
+    default: '',
   },
   fieldType: {
     type: String,
@@ -64,6 +69,10 @@ const getSizeClass = computed(() => {
   return `dt-input__sm`;
 });
 
+const getFieldId = computed(() => {
+  return props.fieldId ? props.fieldId : id;
+});
+
 const handleInput = (evt: Event) => {
   const target: HTMLInputElement = evt.target as HTMLInputElement;
   emit('update:modelValue', target.value);
@@ -76,11 +85,12 @@ const handleInputMaska = (event: CustomEvent<MaskaDetail>) => {
 
 <template>
   <div class="n-input" :class="[getSizeClass]">
-    <label class="n-input--label" :class="[getSizeClass]" :for="fieldName">{{
-      labelTxt
-    }}</label>
+    <label class="n-input--label" :class="[getSizeClass]" :for="getFieldId">
+      {{ labelTxt }}
+    </label>
     <input
       v-if="!hasMask"
+      :id="getFieldId"
       class="n-input__field"
       :class="[`${hasError && fieldRequired ? 'n-input__field__error' : ''}`]"
       :name="fieldName"
@@ -93,6 +103,7 @@ const handleInputMaska = (event: CustomEvent<MaskaDetail>) => {
     />
     <input
       v-else
+      :id="getFieldId"
       v-maska
       class="n-input__field"
       :class="[`${hasError && fieldRequired ? 'n-input__field__error' : ''}`]"

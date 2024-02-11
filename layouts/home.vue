@@ -1,6 +1,20 @@
 <script setup lang="ts">
+import { useStorage } from '@vueuse/core';
 import HomeHeader from '@/components/custom/HomeHeader.vue';
 import HomeFooter from '@/components/custom/HomeFooter.vue';
+
+onBeforeMount(async () => {
+  const timestamp = useStorage('timestamp', '');
+  const timeout = timestamp.value
+    ? new Date(timestamp.value) < new Date()
+    : true;
+
+  if (timeout) {
+    process.client &&
+      console.log('Timeout', new Date(timestamp.value) < new Date());
+    await navigateTo('/');
+  }
+});
 </script>
 
 <template>
