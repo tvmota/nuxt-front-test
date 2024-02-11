@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import HomeHeader from '@/components/custom/HomeHeader.vue';
 import HomeFooter from '@/components/custom/HomeFooter.vue';
 </script>

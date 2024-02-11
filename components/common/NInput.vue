@@ -1,5 +1,5 @@
-<script setup>
-import { vMaska } from 'maska';
+<script setup lang="ts">
+import { vMaska, type MaskaDetail } from 'maska';
 import { computed } from 'vue';
 
 const emit = defineEmits(['update:modelValue', 'handleBlur']);
@@ -64,9 +64,14 @@ const getSizeClass = computed(() => {
   return `dt-input__sm`;
 });
 
-const getHasIconStyle = computed(() => {
-  return props.hasIcon ? { paddingLeft: '2.5rem', paddingRight: '.5rem' } : '';
-});
+const handleInput = (evt: Event) => {
+  const target: HTMLInputElement = evt.target as HTMLInputElement;
+  emit('update:modelValue', target.value);
+};
+
+const handleInputMaska = (event: CustomEvent<MaskaDetail>) => {
+  emit('update:modelValue', event.detail.masked);
+};
 </script>
 
 <template>
@@ -83,8 +88,7 @@ const getHasIconStyle = computed(() => {
       :type="fieldType"
       :value="modelValue"
       :required="fieldRequired"
-      :style="getHasIconStyle"
-      @input="emit('update:modelValue', $event.target.value)"
+      @input="handleInput"
       @blur="emit('handleBlur')"
     />
     <input
@@ -98,8 +102,7 @@ const getHasIconStyle = computed(() => {
       :type="fieldType"
       :value="modelValue"
       :required="fieldRequired"
-      :style="getHasIconStyle"
-      @maska="(evt) => emit('update:modelValue', evt.detail.masked)"
+      @maska="handleInputMaska"
       @blur="emit('handleBlur')"
     />
     <span v-if="hasError && fieldRequired" class="n-input__field__error--msg">

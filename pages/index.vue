@@ -1,16 +1,19 @@
-<script setup>
+<script setup lang="ts">
 import { useStorage } from '@vueuse/core';
 import NInput from '@/components/common/NInput.vue';
 import NButton from '@/components/common/NButton.vue';
 import { loginSchema } from '@/schemas/login';
-import { extractSchemaErr, cleanErr } from '@/utils/form';
+import { extractSchemaErr } from '@/utils/form';
 
-const loginModel = reactive({
+import type { ValidationError } from 'yup';
+import type { LoginModel } from '@/schemas/login';
+
+const loginModel: LoginModel = reactive({
   userName: '',
   pass: '',
 });
 
-const loginErr = reactive({
+const loginErr: LoginModel = reactive({
   userName: '',
   pass: '',
 });
@@ -23,11 +26,19 @@ const handlesubmit = async () => {
     timestamp.value = new Date(new Date().getTime() + 30 * 60000).toISOString();
     await navigateTo('/home');
   } catch (err) {
-    const errors = Object.entries(extractSchemaErr(err));
-    errors.forEach((e) => {
-      const [field = '', errMsg = ''] = e;
-      loginErr[field] = errMsg;
+    const parsed: ValidationError = err as ValidationError;
+    const errors = extractSchemaErr(parsed.inner);
+
+    errors.forEach((err) => {
+      const item: keyof LoginModel = err.item as keyof LoginModel;
+      loginErr[item] = err.message;
     });
+  }
+};
+
+const cleanErr = (field: keyof LoginModel) => {
+  if (loginModel[field].length > 0) {
+    loginErr[field] = '';
   }
 };
 </script>
@@ -57,7 +68,7 @@ const handlesubmit = async () => {
             :has-error="loginErr.userName.length > 0"
             :error-msg="loginErr.userName"
             field-type="text"
-            @handle-blur="cleanErr(loginErr, 'userName')"
+            @handle-blur="cleanErr('userName')"
           />
           <NInput
             v-model="loginModel.pass"
@@ -68,7 +79,7 @@ const handlesubmit = async () => {
             :has-error="loginErr.pass.length > 0"
             :error-msg="loginErr.pass"
             field-type="password"
-            @handle-blur="cleanErr(loginErr, 'pass')"
+            @handle-blur="cleanErr('pass')"
           />
 
           <NButton class="w-full h-12 mt-6" button-type="submit">

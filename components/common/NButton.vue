@@ -1,10 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue';
-import { RouterLink } from 'vue-router';
+import type { PropType, ButtonHTMLAttributes } from 'vue';
 
 const props = defineProps({
   buttonType: {
-    type: String,
+    type: String as PropType<ButtonHTMLAttributes['type']>,
     default: 'button',
   },
   buttonTitle: {
@@ -53,7 +53,7 @@ const getSizeClass = computed(() => {
 </script>
 
 <template>
-  <RouterLink
+  <NuxtLink
     v-if="isLink"
     class="n-btn"
     :class="[getVariantClass, getSizeClass]"
@@ -62,7 +62,7 @@ const getSizeClass = computed(() => {
     v-bind="$attrs"
   >
     <slot>{{ buttonText }}</slot>
-  </RouterLink>
+  </NuxtLink>
 
   <button
     v-else
