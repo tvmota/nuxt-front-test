@@ -85,9 +85,11 @@ const onClickPreviousPage = () => {
 const onClickPage = (page: number) => {
   emit('pagechanged', page);
 };
+
 const onClickNextPage = () => {
   emit('pagechanged', props.currentPage + 1);
 };
+
 const onClickLastPage = () => {
   emit('pagechanged', props.totalPages);
 };
@@ -157,7 +159,7 @@ const onClickLastPage = () => {
 
 <style>
 .pagination {
-  @apply flex items-center gap-8 justify-between max-w-80;
+  @apply flex items-center sm:gap-8 gap-2 justify-between max-w-80;
 
   &__back,
   &__foward {

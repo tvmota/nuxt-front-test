@@ -136,11 +136,11 @@ const cleanErr = (field: keyof LoginModel) => {
       display: flex;
       justify-content: center;
       height: 60px;
-      width: 100%;
 
       img {
         object-fit: cover;
         height: 100%;
+        width: 220px;
       }
     }
 

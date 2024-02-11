@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useStorage } from '@vueuse/core';
+import { toast } from 'vue3-toastify';
 import NInput from '@/components/common/NInput.vue';
 import NButton from '@/components/common/NButton.vue';
 import { userSchema } from '@/schemas/user';
@@ -8,6 +9,7 @@ import type { ValidationError } from 'yup';
 
 definePageMeta({
   layout: 'home',
+  middleware: 'auth',
 });
 
 const route = useRoute();
@@ -31,18 +33,30 @@ const cleanErr = (field: keyof UserModel) => {
   }
 };
 
+const successAlert = (msg: string) =>
+  toast(msg, {
+    type: 'success',
+    position: toast.POSITION.TOP_RIGHT,
+    onClose: () => navigateTo('/home'),
+  });
+
 const handleSubmit = async () => {
   try {
     const userList = useStorage('userList', [] as UserList[], localStorage);
     await userSchema.validate(userModel, { abortEarly: false });
 
     if (id) {
-      console.log('Alterar usuario');
+      const idx = userList.value.findIndex((u) => u.id === id);
+      userList.value[idx].email = userModel.email;
+      userList.value[idx].userName = userModel.userName;
+      userList.value[idx].pass = userModel.pass;
+      successAlert('Usuário salvo com sucesso');
     } else {
       userList.value.push({
         id: window.crypto.randomUUID(),
         ...userModel,
       });
+      successAlert('Usuário cadastrado com sucesso');
     }
   } catch (err) {
     const parsed: ValidationError = err as ValidationError;
@@ -54,6 +68,18 @@ const handleSubmit = async () => {
     });
   }
 };
+
+const findUser = () => {
+  const userList = useStorage('userList', [] as UserList[], localStorage);
+  if (id) {
+    const user = userList.value.find((u) => u.id === id);
+    userModel.userName = user?.userName || '';
+    userModel.email = user?.email || '';
+    userModel.pass = user?.pass || '';
+  }
+};
+
+findUser();
 </script>
 
 <template>

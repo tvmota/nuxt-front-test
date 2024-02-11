@@ -3,10 +3,12 @@ import { useStorage } from '@vueuse/core';
 import NButton from '@/components/common/NButton.vue';
 import NPagination from '~/components/common/NPagination.vue';
 import NCloseIcon from '@/components/common/icons/NCloseIcon.vue';
+import NPencil from '~/components/common/icons/NPencil.vue';
 import type { UserList } from '~/types/user';
 
 definePageMeta({
   layout: 'home',
+  middleware: 'auth',
 });
 
 type List = {
@@ -69,7 +71,10 @@ onBeforeMount(() => {
             <p class="user-list__content__main__list__item--txt">
               {{ user.userName }}
             </p>
-            <span class="user-list__content__main__list__item--subTxt">
+            <span
+              class="user-list__content__main__list__item--subTxt"
+              :title="user.email"
+            >
               {{ user.email }}
             </span>
           </section>
@@ -77,7 +82,21 @@ onBeforeMount(() => {
             <NButton
               variant="neutral"
               size="sm"
-              button-title="Remover Usuário"
+              :button-title="`Editar usuário ${user.userName}`"
+              :is-link="true"
+              :url="`/user/${user.id}`"
+            >
+              <NPencil
+                class="user-list__content__main__list__item__actions--icon"
+                w="24px"
+                h="24px"
+              />
+            </NButton>
+
+            <NButton
+              variant="neutral"
+              size="sm"
+              :button-title="`Remover Usuário ${user.userName}`"
               @click="removeUser(user.id)"
             >
               <NCloseIcon
@@ -117,7 +136,11 @@ onBeforeMount(() => {
     row-gap: 32px;
 
     &__header {
-      @apply py-2 flex justify-between;
+      @apply py-2 flex justify-between flex-col sm:flex-row gap-4;
+
+      a {
+        @apply w-fit;
+      }
 
       &--title {
         @apply font-semibold capitalize text-lg;
@@ -133,7 +156,7 @@ onBeforeMount(() => {
         max-height: 480px;
 
         &__item {
-          @apply flex justify-between py-3 px-8 shadow-sm rounded-lg border border-slate-300;
+          @apply flex justify-between py-3 px-3 md:px-8 shadow-sm rounded-lg border border-slate-300;
 
           &--txt {
             @apply font-semibold capitalize;
@@ -141,19 +164,23 @@ onBeforeMount(() => {
           }
 
           &--subTxt {
-            @apply text-sm font-medium capitalize;
+            @apply text-sm font-medium capitalize  sm:w-48 md:w-60 lg:w-fit xl:w-fit w-28 inline-block;
             color: var(--color-secondary--dark);
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
           }
 
           &__actions {
-            @apply flex items-center gap-4;
+            @apply flex items-center gap-2 sm:gap-4;
 
+            a,
             button {
               padding: 4px !important;
             }
 
             &--icon {
-              color: var(--color-primary);
+              @apply text-slate-200;
               cursor: pointer;
 
               &:hover {
