@@ -5,8 +5,7 @@ export default defineNuxtRouteMiddleware((to) => {
   const timeout = timestamp.value
     ? new Date(timestamp.value) < new Date()
     : true;
-  process.client &&
-    console.log('Timeout', new Date(timestamp.value) < new Date());
+
   if (timeout && to.path === '/home') {
     process.client &&
       console.log('Timeout', new Date(timestamp.value) < new Date());

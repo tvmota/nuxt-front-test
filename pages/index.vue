@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { useStorage } from '@vueuse/core';
+
 import NInput from '@/components/common/NInput.vue';
 import NButton from '@/components/common/NButton.vue';
 import { loginSchema } from '@/schemas/login';
 import { extractSchemaErr } from '@/utils/form';
-
 import type { ValidationError } from 'yup';
-import type { LoginModel } from '@/schemas/login';
+import type { LoginModel } from '@/types/login';
 
 const loginModel: LoginModel = reactive({
   userName: '',
@@ -61,7 +61,7 @@ const cleanErr = (field: keyof LoginModel) => {
         >
           <NInput
             v-model="loginModel.userName"
-            field-name="inptUserCliente"
+            field-name="inptUserLogin"
             field-placeholder="Nome de usuário"
             label-txt="Usuário"
             :field-required="true"
@@ -72,7 +72,7 @@ const cleanErr = (field: keyof LoginModel) => {
           />
           <NInput
             v-model="loginModel.pass"
-            field-name="inptPassCliente"
+            field-name="inptPassLogin"
             field-placeholder="Senha"
             label-txt="Senha"
             :field-required="true"

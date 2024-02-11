@@ -1,5 +1,4 @@
 import { object, string } from 'yup';
-import type { InferType } from 'yup';
 
 export const loginSchema = object({
   pass: string()
@@ -9,5 +8,3 @@ export const loginSchema = object({
     .required('Usuário requerido')
     .matches(/\badmin\b/, 'Usuário inválido'),
 });
-
-export type LoginModel = InferType<typeof loginSchema>;
