@@ -58,6 +58,17 @@ onBeforeMount(() => {
     </section>
 
     <section class="user-list__content__main">
+      <section class="user-list__content__main__pagination">
+        <NPagination
+          v-show="localUserList.users.length > 0"
+          :total-pages="totalPages"
+          :per-page="perPage"
+          :total="localUserList.users.length"
+          :current-page="currentPage"
+          @pagechanged="onPageChange"
+        />
+      </section>
+
       <ul
         v-if="localUserList.users.length > 0"
         class="user-list__content__main__list"
@@ -112,17 +123,6 @@ onBeforeMount(() => {
       <section v-else class="user-list__content__main__list__no-user">
         <h3>Sem usuários cadastrados</h3>
       </section>
-
-      <section class="user-list__content__main__pagination">
-        <NPagination
-          v-show="localUserList.users.length > 0"
-          :total-pages="totalPages"
-          :per-page="perPage"
-          :total="localUserList.users.length"
-          :current-page="currentPage"
-          @pagechanged="onPageChange"
-        />
-      </section>
     </section>
   </section>
 </template>
@@ -136,7 +136,7 @@ onBeforeMount(() => {
     row-gap: 32px;
 
     &__header {
-      @apply py-2 flex justify-between flex-col sm:flex-row gap-4;
+      @apply py-2 flex justify-between;
 
       a {
         @apply w-fit;
@@ -200,9 +200,16 @@ onBeforeMount(() => {
       }
 
       &__pagination {
-        @apply flex justify-center items-center;
+        @apply flex justify-end items-center w-full;
       }
     }
+  }
+}
+
+@media (max-width: 460px) {
+  .user-list__content__header {
+    flex-direction: column;
+    gap: 16px;
   }
 }
 </style>

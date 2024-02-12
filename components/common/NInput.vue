@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { vMaska, type MaskaDetail } from 'maska';
 import { computed } from 'vue';
 const id = useId();
 
@@ -34,19 +33,11 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  hasMask: {
-    type: Boolean,
-    default: false,
-  },
   icon: {
     type: String,
     default: '',
   },
   labelTxt: {
-    type: String,
-    default: '',
-  },
-  mask: {
     type: String,
     default: '',
   },
@@ -77,10 +68,6 @@ const handleInput = (evt: Event) => {
   const target: HTMLInputElement = evt.target as HTMLInputElement;
   emit('update:modelValue', target.value);
 };
-
-const handleInputMaska = (event: CustomEvent<MaskaDetail>) => {
-  emit('update:modelValue', event.detail.masked);
-};
 </script>
 
 <template>
@@ -89,7 +76,6 @@ const handleInputMaska = (event: CustomEvent<MaskaDetail>) => {
       {{ labelTxt }}
     </label>
     <input
-      v-if="!hasMask"
       :id="getFieldId"
       class="n-input__field"
       :class="[`${hasError && fieldRequired ? 'n-input__field__error' : ''}`]"
@@ -99,21 +85,6 @@ const handleInputMaska = (event: CustomEvent<MaskaDetail>) => {
       :value="modelValue"
       :required="fieldRequired"
       @input="handleInput"
-      @blur="emit('handleBlur')"
-    />
-    <input
-      v-else
-      :id="getFieldId"
-      v-maska
-      class="n-input__field"
-      :class="[`${hasError && fieldRequired ? 'n-input__field__error' : ''}`]"
-      :data-maska="mask"
-      :name="fieldName"
-      :placeholder="fieldPlaceholder || labelTxt"
-      :type="fieldType"
-      :value="modelValue"
-      :required="fieldRequired"
-      @maska="handleInputMaska"
       @blur="emit('handleBlur')"
     />
     <span v-if="hasError && fieldRequired" class="n-input__field__error--msg">
@@ -127,7 +98,7 @@ const handleInputMaska = (event: CustomEvent<MaskaDetail>) => {
   @apply mb-3 relative;
 
   &--label {
-    @apply text-sm block font-bold mb-2 text-gray-400 font-thin;
+    @apply text-sm block font-thin mb-2 text-gray-400;
   }
 
   &__field {

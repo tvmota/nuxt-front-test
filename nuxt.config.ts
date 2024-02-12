@@ -1,11 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  routeRules: {
+    '/': { prerender: true },
+    '/home': { prerender: true },
+    '/user': { prerender: true },
+  },
   app: {
-    layoutTransition: {
-      name: 'page',
-      mode: 'in-out',
-    },
     pageTransition: {
       name: 'page',
       mode: 'in-out',

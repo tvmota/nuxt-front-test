@@ -91,8 +91,6 @@ const cleanErr = (field: keyof LoginModel) => {
         <span>
           Esqueceu sua senha?&nbsp;
           <a href="#">Redefinir</a>
-
-          <NuxtLink to="/home">Home</NuxtLink>
         </span>
       </div>
     </div>
@@ -199,8 +197,14 @@ const cleanErr = (field: keyof LoginModel) => {
   }
 
   .login__content__main {
-    height: 460px;
-    padding: 24px 36px;
+    padding: 18px 24px;
+  }
+
+  .login__content__logo {
+    height: 40px;
+    img {
+      width: 200px;
+    }
   }
 }
 </style>

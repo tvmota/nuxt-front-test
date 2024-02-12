@@ -49,11 +49,13 @@
 
 .page-enter-active,
 .page-leave-active {
+  overflow: hidden;
   transition: all 0.5s;
 }
 
 .page-enter-from,
 .page-leave-to {
+  overflow: hidden;
   opacity: 0;
   filter: blur(16px);
 }
