@@ -34,7 +34,7 @@ const cleanErr = (field: keyof UserModel) => {
 };
 
 const successAlert = (msg: string) =>
-  toast(msg, {
+  useNuxtApp().$toast(msg, {
     type: 'success',
     position: toast.POSITION.TOP_RIGHT,
     onClose: () => navigateTo('/home'),

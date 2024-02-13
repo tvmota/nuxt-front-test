@@ -51,11 +51,12 @@
 .page-leave-active {
   overflow: hidden;
   transition: all 0.5s;
+  overflow: hidden;
 }
 
 .page-enter-from,
-.page-leave-to {
-  overflow: hidden;
+.page-leave-to {  
   opacity: 0;
   filter: blur(16px);
+  overflow: hidden;
 }

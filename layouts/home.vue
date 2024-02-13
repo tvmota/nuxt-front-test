@@ -40,12 +40,19 @@ onActivated(async () => {
   &__main {
     @apply p-4;
     grid-area: 2 / 1 / 3 / 2;
+    overflow: hidden;
   }
 
   &__footer {
     @apply p-3 flex justify-center;
     background-color: var(--color-tertiary);
     grid-area: 3 / 1 / 4 / 2;
+  }
+}
+
+@media (max-height: 780px) {
+  .home__main {
+    overflow: scroll;
   }
 }
 </style>

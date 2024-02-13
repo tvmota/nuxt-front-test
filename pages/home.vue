@@ -9,6 +9,16 @@ import type { UserList } from '~/types/user';
 definePageMeta({
   layout: 'home',
   middleware: 'auth',
+  pageTransition: {
+    name: 'page',
+    mode: 'in-out',
+    onBeforeLeave: (el) => {
+      el.parentElement.style.offset = 'hidden';
+    },
+    onBeforeEnter: (el) => {
+      el.parentElement.style.offset = 'auto';
+    },
+  },
 });
 
 type List = {
